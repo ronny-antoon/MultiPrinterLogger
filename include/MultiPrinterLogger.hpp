@@ -1,6 +1,12 @@
 #ifndef MULTI_PRINTER_LOGGER_HPP
 #define MULTI_PRINTER_LOGGER_HPP
 
+/**
+ * @file MultiPrinterLogger.hpp
+ * @brief A simple logging library for Arduino that logs messages to multiple output destinations.
+ * @author Ronny Antoon
+ */
+
 #include "Print.h"
 #include <vector>
 
@@ -16,45 +22,55 @@ enum class LogLevel : uint8_t
 };
 
 /**
- * MultiPrinterLogger: An implementation of the Logger interface that logs messages to multiple output destinations.
+ * @brief MultiPrinterLogger - class for logging messages to multiple output destinations.
+ *
+ * This class is a Singleton, meaning that only one instance of it can exist at a time.
+ * To get the instance of the class, use the `getInstance()` method.
  */
 class MultiPrinterLogger
 {
 public:
     /**
-     * Get the Singleton instance of the MultiPrinterLogger.
+     * @brief Get the instance of the MultiPrinterLogger class.
      *
-     * @return A reference to the Singleton instance of MultiPrinterLogger.
+     * @return MultiPrinterLogger& - the instance of the MultiPrinterLogger class.
      */
     static MultiPrinterLogger &getInstance();
 
     /**
-     * Log a formatted message at the specified log level to all registered printers.
+     * @brief Log a message to all registered printers.
      *
-     * @param level    The log level (ERROR, WARNING, INFO, DEBUG).
-     * @param tag      A tag associated with the log message.
-     * @param format   A printf-style format string for the log message.
-     * @param ...      Variable arguments to format the log message.
+     * @param level - the log level of the message.
+     * @param tag - the tag of the message.
+     * @param message - the message to log. formated as a printf string.
+     *
      */
     void log(LogLevel level, const char *tag, const char *format, ...);
 
     /**
-     * Add a printer as an output destination for log messages.
+     * @brief Add a printer to the list of registered printers.
      *
-     * @param printer  The printer (e.g., Serial) to add for log output.
+     * @param printer - the printer to add.
+     *
+     * @note The printer must be a subclass of the `Print` class.
      */
     void addPrinter(Print *printer);
 
     /**
-     * Enable or disable colored output for log messages.
+     * @brief Enable or disable colored output.
      *
-     * @param enable   Set to `true` to enable colored output, or `false` to disable it.
+     * @param enable - true to enable colored output, false to disable it.
+     *
+     * @note Colored output is disabled by default.
+     * @warning You need to add 'monitor_raw = true' to your platformio.ini file to see colored output in the PlatformIO terminal.
      */
     void setColorEnabled(bool enable);
 
 private:
     /**
-     * Private constructor to enforce Singleton pattern.
+     * @brief Construct a new MultiPrinterLogger object.
+     *
+     * @note This is a private constructor because this class is a Singleton.
      */
     MultiPrinterLogger() {}
 
@@ -62,12 +78,14 @@ private:
     bool colorEnable = false;      // Indicates whether colored output is enabled
 
     /**
-     * Log a message to a specific printer.
+     * @brief Log a message to a specific printer.
      *
-     * @param printer  The printer (e.g., Serial) to log to.
-     * @param level    The log level (ERROR, WARNING, INFO, DEBUG).
-     * @param tag      A tag associated with the log message.
-     * @param message  The message to log.
+     * @param printer - the printer to log to.
+     * @param level - the log level of the message.
+     * @param tag - the tag of the message.
+     * @param message - the message to log.
+     *
+     * @note This method is private because it is only used internally.
      */
     void logToPrinter(Print *printer, LogLevel level, const char *tag, const char *message);
 };

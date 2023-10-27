@@ -47,6 +47,7 @@ void MultiPrinterLogger::addPrinter(Print *printer)
  */
 void MultiPrinterLogger::logToPrinter(Print *printer, LogLevel level, const char *tag, const char *message)
 {
+    // Add color to the message if colored output is enabled.
     if (colorEnable)
     {
         switch (level)
@@ -65,10 +66,13 @@ void MultiPrinterLogger::logToPrinter(Print *printer, LogLevel level, const char
             break;
         }
     }
+
+    // Add tag.
     printer->print("[");
     printer->print(tag);
     printer->print("] ");
 
+    // Add LogLevel.
     switch (level)
     {
     case LogLevel::ERROR:
@@ -85,6 +89,7 @@ void MultiPrinterLogger::logToPrinter(Print *printer, LogLevel level, const char
         break;
     }
 
+    // Add message.
     printer->print(message);
     if (colorEnable)
     {
