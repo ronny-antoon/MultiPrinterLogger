@@ -1,10 +1,25 @@
 #include <Arduino.h>
-#include <MultiPrinterLogger.hpp>
+#include "MultiPrinterLogger.hpp"
+#include <gtest/gtest.h>
 
 void setup()
 {
-    // Initialize your desired output destinations (e.g., Serial, Serial1, etc.).
     Serial.begin(115200);
+    ::testing::InitGoogleTest();
+}
+
+TEST(ExampleTest, Test1)
+{
+
+    EXPECT_EQ(1, 1);
+}
+
+void loop()
+{
+    if (RUN_ALL_TESTS())
+        ;
+
+    delay(1000);
 
     // Get the instance of MultiPrinterLogger.
     MultiPrinterLogger &logger = MultiPrinterLogger::getInstance();
@@ -19,10 +34,9 @@ void setup()
     logger.log(LogLevel::ERROR, "TAG", "This is an error message.");
     logger.log(LogLevel::WARNING, "TAG", "This is a warning message.");
     logger.log(LogLevel::INFO, "TAG", "This is an info message.");
-    logger.log(LogLevel::DEBUG, "TAG", "This is a debug message."); 
-}
+    logger.log(LogLevel::DEBUG, "TAG", "This is a debug message.");
 
-void loop()
-{
-    // Your main code here.
+    Serial.println("-----------------------------------Finished all tests!-----------------------------------");
+
+    delay(10000);
 }

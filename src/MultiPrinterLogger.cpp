@@ -1,4 +1,6 @@
 #include "MultiPrinterLogger.hpp"
+#include <stdarg.h>
+#include <stdio.h>
 
 const char errorColor[] = "\e[31m";
 const char infoColor[] = "\e[32m";

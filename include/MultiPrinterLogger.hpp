@@ -1,13 +1,24 @@
 #ifndef MULTI_PRINTER_LOGGER_HPP
 #define MULTI_PRINTER_LOGGER_HPP
 
-#include "Logger.hpp"
+#include "Print.h"
 #include <vector>
+
+/**
+ * Enumeration representing log levels.
+ */
+enum class LogLevel : uint8_t
+{
+    ERROR,   // Indicates errors in the application.
+    WARNING, // Warnings or important notifications.
+    INFO,    // General information messages.
+    DEBUG    // Debug messages for detailed information.
+};
 
 /**
  * MultiPrinterLogger: An implementation of the Logger interface that logs messages to multiple output destinations.
  */
-class MultiPrinterLogger : public Logger
+class MultiPrinterLogger
 {
 public:
     /**
@@ -25,7 +36,7 @@ public:
      * @param format   A printf-style format string for the log message.
      * @param ...      Variable arguments to format the log message.
      */
-    void log(LogLevel level, const char *tag, const char *format, ...) override;
+    void log(LogLevel level, const char *tag, const char *format, ...);
 
     /**
      * Add a printer as an output destination for log messages.
