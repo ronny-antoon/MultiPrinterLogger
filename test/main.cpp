@@ -40,6 +40,8 @@ void loop()
     logger.log(LogLevel::DEBUG, "TAG", "This is a debug message.");
     delay(1000);
 
+    Serial.printf("getFreeSketchSpace : %d", ESP.getFreeSketchSpace());
+
     Serial.println("-----------------------------------Finished all tests!-----------------------------------");
 
     delay(10000);
