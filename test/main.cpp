@@ -32,9 +32,13 @@ void loop()
 
     // Log messages at different log levels.
     logger.log(LogLevel::ERROR, "TAG", "This is an error message.");
+    delay(1000);
     logger.log(LogLevel::WARNING, "TAG", "This is a warning message.");
+    delay(1000);
     logger.log(LogLevel::INFO, "TAG", "This is an info message.");
+    delay(1000);
     logger.log(LogLevel::DEBUG, "TAG", "This is a debug message.");
+    delay(1000);
 
     Serial.println("-----------------------------------Finished all tests!-----------------------------------");
 
