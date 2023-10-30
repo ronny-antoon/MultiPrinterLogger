@@ -1,36 +1,16 @@
+#include <Print.h>
+#include <vector>
+
 #include "MultiPrinterLogger.hpp"
-#include <stdarg.h>
-#include <stdio.h>
-
-const char errorColor[] = "\e[31m";
-const char infoColor[] = "\e[32m";
-const char warningColor[] = "\e[33m";
-const char debugColor[] = "\e[36m";
-const char resetColor[] = "\e[0m";
-
-/**
- * Get the Singleton instance of the MultiPrinterLogger.
- */
-MultiPrinterLogger &MultiPrinterLogger::getInstance()
-{
-    static MultiPrinterLogger instance;
-    return instance;
-}
 
 /**
  * Log a formatted message at the specified log level to all registered printers.
  */
-void MultiPrinterLogger::log(LogLevel level, const char *tag, const char *format, ...)
+void MultiPrinterLogger::log(LogLevel level, const char *tag, const char *message)
 {
-    char buffer[256];
-    va_list args;
-    va_start(args, format);
-    vsnprintf(buffer, sizeof(buffer), format, args);
-    va_end(args);
-
     for (Print *printer : printers)
     {
-        logToPrinter(printer, level, tag, buffer);
+        logToPrinter(printer, level, tag, message);
     }
 }
 

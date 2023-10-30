@@ -4,7 +4,7 @@ author: Ronny Antoon
 
 steps:
   - wait-serial: '[TAG] ERROR: This is an error message.'
-  - wait-serial: '[TAG] WARNING: This is a warning message.'
-  - wait-serial: '[TAG] INFO: This is an info message.'
-  - wait-serial: '[TAG] DEBUG: This is a debug message.'
+  - wait-serial: '[TAG] WARNING: This is an error message.'
+  - wait-serial: '[TAG] INFO: This is an error message.'
+  - wait-serial: '[TAG] DEBUG: This is an error message.'
   - wait-serial: '-----------------------------------Finished all tests!-----------------------------------'

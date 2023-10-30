@@ -1,81 +1,30 @@
 #ifndef MULTI_PRINTER_LOGGER_HPP
 #define MULTI_PRINTER_LOGGER_HPP
 
-/**
- * @file MultiPrinterLogger.hpp
- * @brief A simple logging library for Arduino that logs messages to multiple output destinations.
- * @author Ronny Antoon
- */
-
-#include "Print.h"
+#include <Print.h>
 #include <vector>
 
-/**
- * Enumeration representing log levels.
- */
-enum class LogLevel : uint8_t
-{
-    ERROR,   // Indicates errors in the application.
-    WARNING, // Warnings or important notifications.
-    INFO,    // General information messages.
-    DEBUG    // Debug messages for detailed information.
-};
+#include "I_MultiPrinterLogger.hpp"
 
-/**
- * @brief MultiPrinterLogger - class for logging messages to multiple output destinations.
- *
- * This class is a Singleton, meaning that only one instance of it can exist at a time.
- * To get the instance of the class, use the `getInstance()` method.
- */
-class MultiPrinterLogger
+class MultiPrinterLogger : public I_MultiPrinterLogger
 {
 public:
-    /**
-     * @brief Get the instance of the MultiPrinterLogger class.
-     *
-     * @return MultiPrinterLogger& - the instance of the MultiPrinterLogger class.
-     */
-    static MultiPrinterLogger &getInstance();
+    MultiPrinterLogger(){};
 
-    /**
-     * @brief Log a message to all registered printers.
-     *
-     * @param level - the log level of the message.
-     * @param tag - the tag of the message.
-     * @param message - the message to log. formated as a printf string.
-     *
-     */
-    void log(LogLevel level, const char *tag, const char *format, ...);
+    void log(LogLevel level, const char *tag, const char *message) override;
 
-    /**
-     * @brief Add a printer to the list of registered printers.
-     *
-     * @param printer - the printer to add.
-     *
-     * @note The printer must be a subclass of the `Print` class.
-     */
-    void addPrinter(Print *printer);
+    void addPrinter(Print *printer) override;
 
-    /**
-     * @brief Enable or disable colored output.
-     *
-     * @param enable - true to enable colored output, false to disable it.
-     *
-     * @note Colored output is disabled by default.
-     * @warning You need to add 'monitor_raw = true' to your platformio.ini file to see colored output in the PlatformIO terminal.
-     */
-    void setColorEnabled(bool enable);
+    void setColorEnabled(bool enable) override;
 
 private:
-    /**
-     * @brief Construct a new MultiPrinterLogger object.
-     *
-     * @note This is a private constructor because this class is a Singleton.
-     */
-    MultiPrinterLogger() {}
-
     std::vector<Print *> printers; // Stores the registered printers
     bool colorEnable = false;      // Indicates whether colored output is enabled
+    const char errorColor[6] = "\e[31m";
+    const char infoColor[6] = "\e[32m";
+    const char warningColor[6] = "\e[33m";
+    const char debugColor[6] = "\e[36m";
+    const char resetColor[5] = "\e[0m";
 
     /**
      * @brief Log a message to a specific printer.
