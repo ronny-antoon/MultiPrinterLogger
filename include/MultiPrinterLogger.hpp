@@ -6,6 +6,11 @@
 
 #include "I_MultiPrinterLogger.hpp"
 
+/**
+ * @brief Class for logging messages to multiple printers.
+ *
+ * @note This class is not intended to be used directly.
+ */
 class MultiPrinterLogger : public I_MultiPrinterLogger
 {
 public:

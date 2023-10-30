@@ -14,7 +14,11 @@ enum class LogLevel : uint8_t
     DEBUG    // Debug messages for detailed information.
 };
 
-// abstract class
+/**
+ * @brief Abstract class, Interface for the MultiPrinterLogger class.
+ *
+ * @note This interface is not intended to be used directly.
+ */
 class I_MultiPrinterLogger
 {
 public:
