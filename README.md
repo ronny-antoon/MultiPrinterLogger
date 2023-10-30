@@ -34,7 +34,7 @@ To use the **MultiPrinterLogger** library in your PlatformIO project, follow the
 1. Open "platformio.ini," a project configuration file located in the root of the PlatformIO project.
 
 2. Add the following line to the `lib_deps` option of `[env:]` section:
-   `ronny-antoon/MultiPrinterLogger@^3.0.1`
+   `ronny-antoon/MultiPrinterLogger@^3.1.1`
 
 3. Build your project, and PlatformIO will automatically install the required dependencies.
 
