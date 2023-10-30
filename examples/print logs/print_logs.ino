@@ -1,25 +1,23 @@
 #include <Arduino.h>
-#include <MultiPrinterLogger.hpp>
+
+#include "API_MultiPrinterLogger.hpp" // Every where you want to use the logger.
+#include "MultiPrinterLogger.hpp"     // Only in Initialize page (e.g., setup() function).
+#include "Foo.hpp"                    //A class that uses the logger.
 
 void setup()
 {
     // Initialize your desired output destinations (e.g., Serial, Serial1, etc.).
     Serial.begin(115200);
 
-    // Get the instance of MultiPrinterLogger.
-    MultiPrinterLogger &logger = MultiPrinterLogger::getInstance();
+    // Initialize the logger.
+    API_MultiPrinterLogger::begin(new MultiPrinterLogger());
+    API_MultiPrinterLogger::addPrinter(&Serial);
+    API_MultiPrinterLogger::setColorEnabled(true);
 
-    // Add printers (output destinations).
-    logger.addPrinter(&Serial);
+    // Create Foo object and DoSomething.
+    Foo foo;
 
-    // Enable colored output (optional).
-    logger.setColorEnabled(true);
-
-    // Log messages at different log levels.
-    logger.log(LogLevel::ERROR, "TAG", "This is an error message.");
-    logger.log(LogLevel::WARNING, "TAG", "This is a warning message.");
-    logger.log(LogLevel::INFO, "TAG", "This is an info message.");
-    logger.log(LogLevel::DEBUG, "TAG", "This is a debug message."); 
+    foo.doSomething();
 }
 
 void loop()
