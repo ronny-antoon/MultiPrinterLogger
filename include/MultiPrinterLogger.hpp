@@ -59,6 +59,9 @@ public:
      * @brief Enable or disable colored output.
      *
      * @param enable True to enable colored output, false to disable.
+     *
+     * @note To use colored output, You need to Add "monitor_raw = true" to your platformio.ini file.
+     *
      */
     void setColorEnabled(bool enable);
 

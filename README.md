@@ -24,7 +24,7 @@ The MultiPrinterLogger library provides a flexible and extensible logging mechan
 ## Features
 - **Log Levels**: Supports different log levels to categorize messages based on their severity.
 - **Multiple Printers**: Logs messages to multiple printers, making it versatile for different output destinations.
-- **Colored Output**: Optionally supports colored output for better visual distinction of log levels.
+- **Colored Output**: Optionally supports colored output for better visual distinction of log levels. To use colored output, You need to Add "monitor_raw = true" to your platformio.ini file.
 - **Flexible Configuration**: Easily configurable log level and color options.
 
 ## Installation
