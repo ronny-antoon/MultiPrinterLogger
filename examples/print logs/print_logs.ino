@@ -1,8 +1,6 @@
 #include <Arduino.h>
-
-#include "API_MultiPrinterLogger.hpp" // Every where you want to use the logger.
-#include "MultiPrinterLogger.hpp"     // Only in Initialize page (e.g., setup() function).
-#include "Foo.hpp"                    //A class that uses the logger.
+#include "MultiPrinterLogger.hpp"
+#include "Foo.hpp"
 
 void setup()
 {
@@ -10,12 +8,13 @@ void setup()
     Serial.begin(115200);
 
     // Initialize the logger.
-    API_MultiPrinterLogger::begin(new MultiPrinterLogger());
-    API_MultiPrinterLogger::addPrinter(&Serial);
-    API_MultiPrinterLogger::setColorEnabled(true);
+    MultiPrinterLogger *myLogger = new MultiPrinterLogger();
+    myLogger->addPrinter(&Serial);
+    myLogger->setLogLevel(MultiPrinterLogger::LogLevel::DEBUG);
+    myLogger->setColorEnabled(true);
 
     // Create Foo object and DoSomething.
-    Foo foo;
+    Foo foo(myLogger);
 
     foo.doSomething();
 }

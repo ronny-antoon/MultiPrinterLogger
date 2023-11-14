@@ -1,21 +1,51 @@
-#include <Print.h>
-#include <vector>
-
 #include "MultiPrinterLogger.hpp"
 
+#include <stdarg.h>
+#include <stdio.h>
+
 /**
- * Log a formatted message at the specified log level to all registered printers.
+ * @brief Log a formatted message at the specified log level to all registered printers.
+ *
+ * @param level The log level of the message.
+ * @param format The format string for the log message.
+ * @param ... Additional arguments for the format string.
  */
-void MultiPrinterLogger::log(LogLevel level, const char *tag, const char *message)
+void MultiPrinterLogger::log(LogLevel level, const char *format, ...)
 {
+    // Check if the message should be logged.
+    if (level > logLevel)
+    {
+        return;
+    }
+
+    // Format the message.
+    char message[256];
+    va_list args;
+    va_start(args, format);
+    vsnprintf(message, sizeof(message), format, args);
+    va_end(args);
+
+    // Log the message to all registered printers.
     for (Print *printer : printers)
     {
-        logToPrinter(printer, level, tag, message);
+        logToPrinter(printer, level, message);
     }
 }
 
 /**
- * Add a printer as an output destination for log messages.
+ * @brief Set the log level for the logger.
+ *
+ * @param level The log level to set.
+ */
+void MultiPrinterLogger::setLogLevel(LogLevel level)
+{
+    logLevel = level;
+}
+
+/**
+ * @brief Add a printer as an output destination for log messages.
+ *
+ * @param printer The printer to add.
  */
 void MultiPrinterLogger::addPrinter(Print *printer)
 {
@@ -23,9 +53,13 @@ void MultiPrinterLogger::addPrinter(Print *printer)
 }
 
 /**
- * Log a message to a specific printer.
+ * @brief Log a message to a specific printer.
+ *
+ * @param printer The printer to log to.
+ * @param level The log level of the message.
+ * @param message The message to log.
  */
-void MultiPrinterLogger::logToPrinter(Print *printer, LogLevel level, const char *tag, const char *message)
+void MultiPrinterLogger::logToPrinter(Print *printer, LogLevel level, const char *message)
 {
     // Add color to the message if colored output is enabled.
     if (colorEnable)
@@ -47,39 +81,23 @@ void MultiPrinterLogger::logToPrinter(Print *printer, LogLevel level, const char
         }
     }
 
-    // Add tag.
-    printer->print("[");
-    printer->print(tag);
-    printer->print("] ");
-
-    // Add LogLevel.
-    switch (level)
-    {
-    case LogLevel::ERROR:
-        printer->print("ERROR: ");
-        break;
-    case LogLevel::WARNING:
-        printer->print("WARNING: ");
-        break;
-    case LogLevel::INFO:
-        printer->print("INFO: ");
-        break;
-    case LogLevel::DEBUG:
-        printer->print("DEBUG: ");
-        break;
-    }
-
     // Add message.
     printer->print(message);
+
+    // Reset color if colored output is enabled.
     if (colorEnable)
     {
         printer->print(resetColor);
     }
+
+    // Move to the next line.
     printer->println();
 }
 
 /**
- * Enable or disable colored output for log messages.
+ * @brief Enable or disable colored output for log messages.
+ *
+ * @param enable True to enable colored output, false to disable.
  */
 void MultiPrinterLogger::setColorEnabled(bool enable)
 {

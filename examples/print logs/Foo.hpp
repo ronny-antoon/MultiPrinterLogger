@@ -1,24 +1,34 @@
 #ifndef FOO_HPP
 #define FOO_HPP
 
-#include "API_MultiPrinterLogger.hpp"
+#include "MultiPrinterLoggerInterface.hpp"
 
-// i dont knowe MultiPrinterLogger.
-// i know only the API of MultiPrinterLogger(API_MultiPrinterLogger), and the Interface of MultiPrinterLogger(I_MultiPrinterLogger).
-
+/**
+ * @brief Foo class.
+ *
+ * This class demonstrates the usage of MultiPrinterLoggerInterface for logging messages.
+ */
 class Foo
 {
-public:
-    Foo(){};
-    ~Foo(){};
+    MultiPrinterLoggerInterface *_mylogger; ///< Pointer to the MultiPrinterLoggerInterface instance.
 
-    void doSomething()
-    {
-        Log_Error("TAG", "This is an error message.");
-        Log_Warning("TAG", "This is a warning message.");
-        Log_Info("TAG", "This is an info message.");
-        Log_Debug("TAG", "This is a debug message.");
-    }
+public:
+    /**
+     * @brief Constructor for Foo class.
+     *
+     * @param mylogger Pointer to the MultiPrinterLoggerInterface instance.
+     */
+    Foo(MultiPrinterLoggerInterface *mylogger);
+
+    /**
+     * @brief Destructor for Foo class.
+     */
+    ~Foo();
+
+    /**
+     * @brief Perform some action and log messages using MultiPrinterLoggerInterface.
+     */
+    void doSomething();
 };
 
 #endif // FOO_HPP

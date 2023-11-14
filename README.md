@@ -1,10 +1,11 @@
 # MultiPrinterLogger Library
 
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/donate/?hosted_button_id=BACPRJTAU4G4E)
 [![Latest](https://img.shields.io/github/v/tag/ronny-antoon/MultiPrinterLogger?color=red&label=last+release)](https://github.com/ronny-antoon/MultiPrinterLogger/releases)
 [![Latest](https://badges.registry.platformio.org/packages/ronny-antoon/library/MultiPrinterLogger.svg)](https://registry.platformio.org/libraries/ronny-antoon/MultiPrinterLogger)
 [![UnitTests](https://github.com/ronny-antoon/MultiPrinterLogger/actions/workflows/build-and-test-embeded.yaml/badge.svg)](https://github.com/ronny-antoon/MultiPrinterLogger/actions/workflows/build-and-test-embeded.yaml)
 
-The MultiPrinterLogger library is a simple logging library for Arduino that logs messages to multiple output destinations. It is designed to be easy to use and highly customizable, allowing you to control log levels, colored output, and the choice of output destinations.
+The MultiPrinterLogger library is a simple logging library for Arduino/ESP32 that logs messages to multiple output destinations. It is designed to be easy to use and highly customizable, allowing you to control log levels, colored output, and the choice of output destinations.
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -18,13 +19,13 @@ The MultiPrinterLogger library is a simple logging library for Arduino that logs
 
 ## Introduction
 
-The MultiPrinterLogger library simplifies the process of logging messages from your Arduino application to various output devices. It allows you to log messages with different log levels (e.g., errors, warnings, information, and debugging) and customize the formatting and output destinations.
+The MultiPrinterLogger library provides a flexible and extensible logging mechanism for Arduino projects. It allows you to log messages at different levels (ERROR, WARNING, INFO, DEBUG) and direct those messages to multiple output destinations.
 
 ## Features
-- Supports logging to multiple output devices simultaneously.
-- Log messages with different log levels (ERROR, WARNING, INFO, DEBUG).
-- Customize message formatting and colored output for better visualization.
-- EFlexible and extensible design, allowing you to add custom output devices as needed.
+- **Log Levels**: Supports different log levels to categorize messages based on their severity.
+- **Multiple Printers**: Logs messages to multiple printers, making it versatile for different output destinations.
+- **Colored Output**: Optionally supports colored output for better visual distinction of log levels.
+- **Flexible Configuration**: Easily configurable log level and color options.
 
 ## Installation
 
@@ -34,7 +35,7 @@ To use the **MultiPrinterLogger** library in your PlatformIO project, follow the
 1. Open "platformio.ini," a project configuration file located in the root of the PlatformIO project.
 
 2. Add the following line to the `lib_deps` option of `[env:]` section:
-   `ronny-antoon/MultiPrinterLogger@^3.1.1`
+   `ronny-antoon/MultiPrinterLogger@^4.0.0`
 
 3. Build your project, and PlatformIO will automatically install the required dependencies.
 
@@ -52,42 +53,53 @@ The MultiPrinterLogger library provides a convenient way to log messages to mult
 ### Class Overview
 
 The library includes the following classes:
-- `MultiPrinterLogger`: The main class for logging messages to multiple output destinations.
-- `I_MultiPrinterLogger`: The Interface class.
-- `API_MultiPrinterLogger`: The API to use for logging.
-- `LogLevel`: An enumeration representing log levels (ERROR, WARNING, INFO, DEBUG).
+- `MultiPrinterLoggerInterface`: This abstract class defines the interface for a logger that supports multiple log levels.
+Convenient macros for logging messages:
+**Log_Error(myLogger, format, ...)**
+**Log_Warning(myLogger, format, ...)**
+**Log_Info(myLogger, format, ...)**
+**Log_Debug(myLogger, format, ...)**
+
+- `MultiPrinterLogger`: This class implements the MultiPrinterLoggerInterface and is responsible for logging messages to multiple printers.
+Methods:
+**void log(LogLevel level, const char *format, ...)**: Log a message with the specified log level.
+**void setLogLevel(LogLevel level)**: Set the log level for the logger.
+**void addPrinter(Print *printer)**: Add a printer to the list of printers.
+**void setColorEnabled(bool enable)**: Enable or disable colored output.
 
 ### Example
 
 Here's a simple example of how to use the MultiPrinterLogger library to log messages:
 
 ```cpp
-#include "API_MultiPrinterLogger.hpp" // API for logging.
-#include "MultiPrinterLogger.hpp"     // Only for Initialize the logger (in setup function).
+#include <Arduino.h>
+#include "MultiPrinterLogger.hpp"
 
-void setup() {
-      // Initialize your desired output destinations (e.g., Serial, Serial1, etc.).
+MultiPrinterLogger *myLogger;
+
+void setup()
+{
+    // Initialize your desired output destinations (e.g., Serial, Serial1, etc.).
     Serial.begin(115200);
 
     // Initialize the logger.
-    API_MultiPrinterLogger::begin(new MultiPrinterLogger());
+    myLogger = new MultiPrinterLogger();
+    myLogger->addPrinter(&Serial);
+    myLogger->setLogLevel(MultiPrinterLogger::LogLevel::DEBUG);
+    myLogger->setColorEnabled(true);
 
-    // Add Serial as an output destination.
-    API_MultiPrinterLogger::addPrinter(&Serial);
-
-    // Enable colored output.
-    API_MultiPrinterLogger::setColorEnabled(true);
-
+    // Use the logger in your code.
+    // ...
 }
 
 void loop() {
     // Your application code here.
 
     // Log messages with different log levels.
-    Log_Error("TAG", "This is an error message.");
-    Log_Warning("TAG", "This is a warning message.");
-    Log_Info("TAG", "This is an info message.");
-    Log_Debug("TAG", "This is a debug message.");
+    Log_Error(myLogger, "This is an error message.");
+    Log_Warning(myLogger, "This is a warning message.");
+    Log_Info(myLogger, "This is an info message.");
+    Log_Debug(myLogger, "This is a debug message.");
     delay(10000);
 }
 ```

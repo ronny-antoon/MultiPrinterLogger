@@ -1,6 +1,6 @@
 {
     "name": "MultiPrinterLogger",
-    "version": "3.1.1",
+    "version": "4.0.0",
     "description": "The \"MultiPrinterLogger\" library is an Arduino framework-based implementation of a flexible logger system that allows you to log messages to multiple output destinations. It provides support for different log levels (ERROR, WARNING, INFO, DEBUG) and enables or disables colored output for log messages.",
     "keywords": "Logger_M, Logger, ronny, antoon, ronny antoon, log, Printer, Multi",
     "repository": {

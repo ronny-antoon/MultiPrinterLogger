@@ -4,24 +4,22 @@
 // TEST Files
 #include "logTest.hpp"
 
-// Classes for Testing
-#include "API_MultiPrinterLogger.hpp"
-#include "MultiPrinterLogger.hpp"
-
-// Setup the test environment
-// a.
+/**
+ * @brief Arduino setup function.
+ *
+ * This function initializes Serial communication and initializes Google Test.
+ */
 void setup()
 {
     Serial.begin(115200);
-    delay(100);
-
-    API_MultiPrinterLogger::begin(new MultiPrinterLogger());
-    API_MultiPrinterLogger::addPrinter(&Serial);
-    API_MultiPrinterLogger::setColorEnabled(true);
-
     ::testing::InitGoogleTest();
 }
 
+/**
+ * @brief Arduino loop function.
+ *
+ * This function runs all Google Test cases and prints a message when all tests are finished.
+ */
 void loop()
 {
     if (RUN_ALL_TESTS())
