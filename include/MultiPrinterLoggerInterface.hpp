@@ -46,9 +46,17 @@ public:
 /**
  * @brief Macros for logging messages.
  */
-#define Log_Error(myLogger, format, ...) myLogger->log(MultiPrinterLoggerInterface::LogLevel::ERROR, "[%s:%u][E] %s(): " format, __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
-#define Log_Warning(myLogger, format, ...) myLogger->log(MultiPrinterLoggerInterface::LogLevel::WARNING, "[%s:%u][W] %s(): " format, __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
-#define Log_Info(myLogger, format, ...) myLogger->log(MultiPrinterLoggerInterface::LogLevel::INFO, "[%s:%u][I] %s(): " format, __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
-#define Log_Debug(myLogger, format, ...) myLogger->log(MultiPrinterLoggerInterface::LogLevel::DEBUG, "[%s:%u][D] %s(): " format, __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+#define Log_Error(myLogger, format, ...) \
+    if (myLogger)                        \
+    myLogger->log(MultiPrinterLoggerInterface::LogLevel::ERROR, "[%s:%u][E] %s(): " format, __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+#define Log_Warning(myLogger, format, ...) \
+    if (myLogger)                          \
+    myLogger->log(MultiPrinterLoggerInterface::LogLevel::WARNING, "[%s:%u][W] %s(): " format, __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+#define Log_Info(myLogger, format, ...) \
+    if (myLogger)                       \
+    myLogger->log(MultiPrinterLoggerInterface::LogLevel::INFO, "[%s:%u][I] %s(): " format, __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+#define Log_Debug(myLogger, format, ...) \
+    if (myLogger)                        \
+    myLogger->log(MultiPrinterLoggerInterface::LogLevel::DEBUG, "[%s:%u][D] %s(): " format, __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
 
 #endif // MULTI_PRINTER_LOGGER_INTERFACE_HPP
