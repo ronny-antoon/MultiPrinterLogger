@@ -1,8 +1,5 @@
 #include "MultiPrinterLogger.hpp"
 
-#include <stdarg.h>
-#include <stdio.h>
-
 /**
  * @brief Log a formatted message at the specified log level to all registered printers.
  *

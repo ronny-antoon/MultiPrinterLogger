@@ -3,6 +3,8 @@
 
 #include <Print.h>
 #include <vector>
+#include <stdarg.h>
+#include <stdio.h>
 
 #include "MultiPrinterLoggerInterface.hpp"
 
