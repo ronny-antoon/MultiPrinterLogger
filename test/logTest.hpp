@@ -98,4 +98,42 @@ TEST_F(MultiPrinterLoggerTest, Log_Debug_test)
     delay(500);
 }
 
+/**
+ * @brief Test case for checking freeheap and min free heap after couple of logs.
+ *
+ * This test case logs a debug message using the Log_Debug macro
+ *
+ * and expects the test to pass without errors.
+ */
+TEST_F(MultiPrinterLoggerTest, Log_test_freeheap)
+{
+    Log_Debug(myLogger, "This is a debug message.");
+    Log_Info(myLogger, "This is an info message.");
+    Log_Warning(myLogger, "This is a warning message.");
+    Log_Error(myLogger, "This is an error message.");
+    EXPECT_EQ(1, 1);
+    delay(100);
+
+    int m_minFreeHeap = ESP.getMinFreeHeap();
+    int m_freeHeap = ESP.getFreeHeap();
+
+    int count = 0;
+
+    while (count < 5)
+    {
+        Log_Debug(myLogger, "This is a debug message.");
+        Log_Info(myLogger, "This is an info message.");
+        Log_Warning(myLogger, "This is a warning message.");
+        Log_Error(myLogger, "This is an error message.");
+        EXPECT_EQ(1, 1);
+        delay(100);
+
+        EXPECT_EQ(m_minFreeHeap, ESP.getMinFreeHeap());
+        EXPECT_EQ(m_freeHeap, ESP.getFreeHeap());
+
+        count++;
+        delay(100);
+    }
+}
+
 #endif // LOG_TEST_HPP
