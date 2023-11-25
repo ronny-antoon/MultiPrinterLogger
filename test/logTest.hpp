@@ -99,6 +99,19 @@ TEST_F(MultiPrinterLoggerTest, Log_Debug_test)
 }
 
 /**
+ * @brief Test case for logging a verbos message.
+ *
+ * This test case logs a verbos message using the Log_Verbos macro
+ * and expects the test to pass without errors.
+ */
+TEST_F(MultiPrinterLoggerTest, Log_Verbose_test)
+{
+    Log_Verbose(myLogger, "This is a verbos message.");
+    EXPECT_EQ(1, 1);
+    delay(500);
+}
+
+/**
  * @brief Test case for checking freeheap and min free heap after couple of logs.
  *
  * This test case logs a debug message using the Log_Debug macro
@@ -107,6 +120,7 @@ TEST_F(MultiPrinterLoggerTest, Log_Debug_test)
  */
 TEST_F(MultiPrinterLoggerTest, Log_test_freeheap)
 {
+    Log_Verbose(myLogger, "This is a verbos message.");
     Log_Debug(myLogger, "This is a debug message.");
     Log_Info(myLogger, "This is an info message.");
     Log_Warning(myLogger, "This is a warning message.");
@@ -114,13 +128,14 @@ TEST_F(MultiPrinterLoggerTest, Log_test_freeheap)
     EXPECT_EQ(1, 1);
     delay(100);
 
-    int m_minFreeHeap = ESP.getMinFreeHeap();
+    int m_maxFreeHeap = ESP.getMaxAllocHeap();
     int m_freeHeap = ESP.getFreeHeap();
 
     int count = 0;
 
     while (count < 5)
     {
+        Log_Verbose(myLogger, "This is a verbos message.");
         Log_Debug(myLogger, "This is a debug message.");
         Log_Info(myLogger, "This is an info message.");
         Log_Warning(myLogger, "This is a warning message.");
@@ -128,7 +143,7 @@ TEST_F(MultiPrinterLoggerTest, Log_test_freeheap)
         EXPECT_EQ(1, 1);
         delay(100);
 
-        EXPECT_EQ(m_minFreeHeap, ESP.getMinFreeHeap());
+        EXPECT_EQ(m_maxFreeHeap, ESP.getMaxAllocHeap());
         EXPECT_EQ(m_freeHeap, ESP.getFreeHeap());
 
         count++;

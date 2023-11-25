@@ -25,7 +25,8 @@ public:
         ERROR,   /**< Indicates errors in the application. */
         WARNING, /**< Warnings or important notifications. */
         INFO,    /**< General information messages. */
-        DEBUG    /**< Debug messages for detailed information. */
+        DEBUG,   /**< Debug messages for detailed information. */
+        VERBOSE  /**< Verbose messages for very detailed information. */
     };
 
     /**
@@ -80,6 +81,15 @@ public:
     }                                                                                                                                             \
     else                                                                                                                                          \
     {                                                                                                                                             \
+    }
+
+#define Log_Verbose(myLogger, format, ...)                                                                                                          \
+    if (myLogger)                                                                                                                                   \
+    {                                                                                                                                               \
+        myLogger->log(MultiPrinterLoggerInterface::LogLevel::VERBOSE, "[%s:%u][V] %s(): " format, __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__); \
+    }                                                                                                                                               \
+    else                                                                                                                                            \
+    {                                                                                                                                               \
     }
 
 #endif // MULTI_PRINTER_LOGGER_INTERFACE_HPP
