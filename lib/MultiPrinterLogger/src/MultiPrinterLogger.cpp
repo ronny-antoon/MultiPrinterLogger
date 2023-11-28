@@ -85,7 +85,7 @@ void MultiPrinterLogger::logToPrinter(Print *printer, LogLevel level, const char
     printer->print(message);
 
     // Reset color if colored output is enabled.
-    if (colorEnable && level != LogLevel::VERBOSE)
+    if (colorEnable)
     {
         printer->print(resetColor);
     }
