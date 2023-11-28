@@ -75,6 +75,7 @@ private:
     const char infoColor[6] = "\e[32m";    /**< ANSI color code for info messages. */
     const char warningColor[6] = "\e[33m"; /**< ANSI color code for warning messages. */
     const char debugColor[6] = "\e[36m";   /**< ANSI color code for debug messages. */
+    const char verboseColor[6] = "\e[35m"; /**< ANSI color code for verbose messages. */
     const char resetColor[5] = "\e[0m";    /**< ANSI color code to reset color. */
 
     /**

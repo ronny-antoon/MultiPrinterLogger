@@ -75,6 +75,9 @@ void MultiPrinterLogger::logToPrinter(Print *printer, LogLevel level, const char
         case LogLevel::DEBUG:
             printer->print(debugColor);
             break;
+        case LogLevel::VERBOSE:
+            printer->print(verboseColor);
+            break;
         }
     }
 
