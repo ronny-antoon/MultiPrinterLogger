@@ -16,10 +16,28 @@ void MultiPrinterLogger::log(LogLevel level, const char *format, ...)
     }
 
     // Format the message.
-    char message[256];
+    char tmp[2];
     va_list args;
     va_start(args, format);
-    vsnprintf(message, sizeof(message), format, args);
+    int messageLength = vsnprintf(tmp, sizeof(tmp), format, args);
+
+    // Check if the message is too long or if there was an error formatting the message.
+    if (messageLength < 0 || messageLength > 4096)
+    {
+        va_end(args);
+        return;
+    }
+
+    // Allocate memory for the message.
+    char *message = (char *)malloc(messageLength + 1);
+    if (message == NULL)
+    {
+        va_end(args);
+        return;
+    }
+
+    // Format the message.
+    vsnprintf(message, messageLength + 1, format, args);
     va_end(args);
 
     // Log the message to all registered printers.
@@ -27,6 +45,9 @@ void MultiPrinterLogger::log(LogLevel level, const char *format, ...)
     {
         logToPrinter(printer, level, message);
     }
+
+    // Free the memory for the message.
+    free(message);
 }
 
 /**
