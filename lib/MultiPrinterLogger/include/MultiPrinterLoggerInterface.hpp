@@ -9,6 +9,8 @@
  * @copyright MetaHouse LTD.
  */
 
+#include <stdint.h>
+
 /**
  * @brief Interface for a multi-level logger.
  *
@@ -20,7 +22,7 @@ public:
     /**
      * @brief Enumeration representing log levels.
      */
-    enum LogLevel
+    enum LogLevel : uint8_t
     {
         ERROR,   /**< Indicates errors in the application. */
         WARNING, /**< Warnings or important notifications. */
@@ -36,7 +38,7 @@ public:
      * @param format The format string for the log message.
      * @param ... Additional arguments for the format string.
      */
-    virtual void log(LogLevel level, const char *format, ...) = 0;
+    virtual void log(const LogLevel level, const char *format, ...) = 0;
 
     /**
      * @brief Virtual destructor for MultiPrinterLoggerInterface.
@@ -44,52 +46,36 @@ public:
     virtual ~MultiPrinterLoggerInterface() = default;
 };
 
+#define FMT_LOG_M(LV, format) "[%s:%u][%c] %s(): " format, __FILE__, __LINE__, LV, __FUNCTION__
+#define ENDIF_LOG_M else {};
+#define LEVEL_LOG_M(level) MultiPrinterLoggerInterface::LogLevel::level
+
 /**
  * @brief Macros for logging messages.
  */
-#define Log_Error(myLogger, format, ...)                                                                                                          \
-    if (myLogger)                                                                                                                                 \
-    {                                                                                                                                             \
-        myLogger->log(MultiPrinterLoggerInterface::LogLevel::ERROR, "[%s:%u][E] %s(): " format, __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__); \
-    }                                                                                                                                             \
-    else                                                                                                                                          \
-    {                                                                                                                                             \
-    }
+#define Log_Error(myLogger, format, ...)                                          \
+    if (myLogger)                                                                 \
+        myLogger->log(LEVEL_LOG_M(ERROR), FMT_LOG_M('E', format), ##__VA_ARGS__); \
+    ENDIF_LOG_M
 
-#define Log_Warning(myLogger, format, ...)                                                                                                          \
-    if (myLogger)                                                                                                                                   \
-    {                                                                                                                                               \
-        myLogger->log(MultiPrinterLoggerInterface::LogLevel::WARNING, "[%s:%u][W] %s(): " format, __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__); \
-    }                                                                                                                                               \
-    else                                                                                                                                            \
-    {                                                                                                                                               \
-    }
+#define Log_Warning(myLogger, format, ...)                                          \
+    if (myLogger)                                                                   \
+        myLogger->log(LEVEL_LOG_M(WARNING), FMT_LOG_M('W', format), ##__VA_ARGS__); \
+    ENDIF_LOG_M
 
-#define Log_Info(myLogger, format, ...)                                                                                                          \
-    if (myLogger)                                                                                                                                \
-    {                                                                                                                                            \
-        myLogger->log(MultiPrinterLoggerInterface::LogLevel::INFO, "[%s:%u][I] %s(): " format, __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__); \
-    }                                                                                                                                            \
-    else                                                                                                                                         \
-    {                                                                                                                                            \
-    }
+#define Log_Info(myLogger, format, ...)                                          \
+    if (myLogger)                                                                \
+        myLogger->log(LEVEL_LOG_M(INFO), FMT_LOG_M('I', format), ##__VA_ARGS__); \
+    ENDIF_LOG_M
 
-#define Log_Debug(myLogger, format, ...)                                                                                                          \
-    if (myLogger)                                                                                                                                 \
-    {                                                                                                                                             \
-        myLogger->log(MultiPrinterLoggerInterface::LogLevel::DEBUG, "[%s:%u][D] %s(): " format, __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__); \
-    }                                                                                                                                             \
-    else                                                                                                                                          \
-    {                                                                                                                                             \
-    }
+#define Log_Debug(myLogger, format, ...)                                          \
+    if (myLogger)                                                                 \
+        myLogger->log(LEVEL_LOG_M(DEBUG), FMT_LOG_M('D', format), ##__VA_ARGS__); \
+    ENDIF_LOG_M
 
-#define Log_Verbose(myLogger, format, ...)                                                                                                          \
-    if (myLogger)                                                                                                                                   \
-    {                                                                                                                                               \
-        myLogger->log(MultiPrinterLoggerInterface::LogLevel::VERBOSE, "[%s:%u][V] %s(): " format, __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__); \
-    }                                                                                                                                               \
-    else                                                                                                                                            \
-    {                                                                                                                                               \
-    }
+#define Log_Verbose(myLogger, format, ...)                                          \
+    if (myLogger)                                                                   \
+        myLogger->log(LEVEL_LOG_M(VERBOSE), FMT_LOG_M('V', format), ##__VA_ARGS__); \
+    ENDIF_LOG_M
 
 #endif // MULTI_PRINTER_LOGGER_INTERFACE_HPP

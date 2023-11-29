@@ -27,7 +27,7 @@ public:
     /**
      * @brief Default constructor for MultiPrinterLogger.
      */
-    MultiPrinterLogger(){};
+    MultiPrinterLogger() = default;
 
     /**
      * @brief Virtual destructor for MultiPrinterLogger.
@@ -41,14 +41,14 @@ public:
      * @param format The format string for the log message.
      * @param ... Additional arguments for the format string.
      */
-    void log(LogLevel level, const char *format, ...) override;
+    void log(const LogLevel level, const char *format, ...) override;
 
     /**
      * @brief Set the log level for the logger.
      *
      * @param level The log level to set.
      */
-    void setLogLevel(LogLevel level);
+    void setLogLevel(const LogLevel level);
 
     /**
      * @brief Add a printer to the list of printers.
@@ -65,18 +65,17 @@ public:
      * @note To use colored output, You need to Add "monitor_raw = true" to your platformio.ini file.
      *
      */
-    void setColorEnabled(bool enable);
+    void setColorEnabled(const bool enable);
 
 private:
-    LogLevel logLevel = LogLevel::ERROR;   /**< The current log level. */
+    LogLevel logLevel = LogLevel::WARNING; /**< The current log level. */
     std::vector<Print *> printers;         /**< Stores the registered printers. */
     bool colorEnable = false;              /**< Indicates whether colored output is enabled. */
-    const char errorColor[6] = "\e[31m";   /**< ANSI color code for error messages. */
-    const char infoColor[6] = "\e[32m";    /**< ANSI color code for info messages. */
-    const char warningColor[6] = "\e[33m"; /**< ANSI color code for warning messages. */
-    const char debugColor[6] = "\e[36m";   /**< ANSI color code for debug messages. */
-    const char verboseColor[6] = "\e[35m"; /**< ANSI color code for verbose messages. */
-    const char resetColor[5] = "\e[0m";    /**< ANSI color code to reset color. */
+    const char errorColor = '1';           /**< ANSI color code for error messages. */
+    const char infoColor = '2';            /**< ANSI color code for info messages. */
+    const char warningColor = '3';         /**< ANSI color code for warning messages. */
+    const char debugColor = '6';           /**< ANSI color code for debug messages. */
+    const char verboseColor = '5';         /**< ANSI color code for verbose messages. */
 
     /**
      * @brief Log a message to a specific printer.
@@ -87,7 +86,7 @@ private:
      *
      * @note This method is private because it is only used internally.
      */
-    void logToPrinter(Print *printer, LogLevel level, const char *message);
+    void logToPrinter(Print *printer, const LogLevel level, const char *message);
 };
 
 #endif // MULTI_PRINTER_LOGGER_HPP
