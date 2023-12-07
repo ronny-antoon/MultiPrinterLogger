@@ -28,15 +28,16 @@ void MultiPrinterLogger::log(const LogLevel level, const char *format, ...)
         return;
     }
 
+    char tmp2[messageLength + 1];
     char *message;
     // Check if the message is short enough to fit in the temporary buffer.
     if (messageLength < sizeof(tmp))
         message = tmp;
     else
     {
-        message = (char *)malloc(messageLength + 1);
         // Format the message.
-        vsnprintf(message, messageLength + 1, format, args);
+        vsnprintf(tmp2, messageLength + 1, format, args);
+        message = tmp2;
     }
     va_end(args);
 

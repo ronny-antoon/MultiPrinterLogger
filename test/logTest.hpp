@@ -135,7 +135,7 @@ TEST_F(MultiPrinterLoggerTest, Log_test_freeheap)
 
     while (count < 5)
     {
-        Log_Verbose(myLogger, "This is a verbos message.");
+        Log_Verbose(myLogger, "This is a verbos message.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         Log_Debug(myLogger, "This is a debug message.");
         Log_Info(myLogger, "This is an info message.");
         Log_Warning(myLogger, "This is a warning message.");

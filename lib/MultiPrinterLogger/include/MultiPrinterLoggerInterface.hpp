@@ -9,6 +9,7 @@
  * @copyright MetaHouse LTD.
  */
 
+#include <Arduino.h>
 #include <stdint.h>
 
 /**
@@ -46,7 +47,7 @@ public:
     virtual ~MultiPrinterLoggerInterface() = default;
 };
 
-#define FMT_LOG_M(LV, format) "[%s:%u][%c] %s(): " format, __FILE__, __LINE__, LV, __FUNCTION__
+#define FMT_LOG_M(LV, format) "[/%s:%u][%c] %s(): " format, __FILENAME__, __LINE__, LV, __FUNCTION__
 #define ENDIF_LOG_M else {};
 #define LEVEL_LOG_M(level) MultiPrinterLoggerInterface::LogLevel::level
 
