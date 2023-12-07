@@ -46,10 +46,6 @@ void MultiPrinterLogger::log(const LogLevel level, const char *format, ...)
     {
         logToPrinter(printer, level, message);
     }
-
-    // Free the memory for the message.
-    if (message != tmp)
-        free(message);
 }
 
 /**

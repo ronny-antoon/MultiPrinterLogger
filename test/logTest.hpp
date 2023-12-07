@@ -29,7 +29,7 @@ protected:
         freeHeap = ESP.getFreeHeap();
         myLogger = new MultiPrinterLogger();
         myLogger->addPrinter(&Serial);
-        myLogger->setLogLevel(MultiPrinterLogger::LogLevel::DEBUG);
+        myLogger->setLogLevel(MultiPrinterLogger::LogLevel::VERBOSE);
         myLogger->setColorEnabled(true);
     }
 
