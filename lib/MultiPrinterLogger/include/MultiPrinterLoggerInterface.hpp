@@ -47,8 +47,8 @@ public:
     virtual ~MultiPrinterLoggerInterface() = default;
 };
 
-#define FMT_LOG_M(LV, format) "[%.0f]%s:%u[%c] %s(): " format, (esp_timer_get_time() / 1000ULL / 1000ULL), __FILENAME__, __LINE__, LV, __FUNCTION__
-// #define FMT_LOG_M(LV, format) "%s:%u[%c] %s(): " format, __FILENAME__, __LINE__, LV, __FUNCTION__
+// #define FMT_LOG_M(LV, format) "[%.0f]%s:%u[%c] %s(): " format, (esp_timer_get_time() / 1000ULL / 1000ULL), __FILENAME__, __LINE__, LV, __FUNCTION__
+#define FMT_LOG_M(LV, format) "%s:%u[%c] %s(): " format, __FILENAME__, __LINE__, LV, __FUNCTION__
 #define ENDIF_LOG_M else {};
 #define LEVEL_LOG_M(level) MultiPrinterLoggerInterface::LogLevel::level
 
